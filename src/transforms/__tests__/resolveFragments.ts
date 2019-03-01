@@ -44,6 +44,19 @@ describe('Resolve fragments transformer', () => {
         assert.equal(transformedDoc.definitions.length, 3);
       });
     });
+    
+    it('should resolve all inline fragments', () => {
+      return loadGlob(
+        path.join(__dirname, '..', '..', '..', 'inlineFragmentExample'),
+        '**/*.graphql'
+      )
+      .then((root: DocumentDirectory) => {
+        const fMap = createFragmentMap(root);
+        const origDoc = root.directories[1].documents[0];
+        const transformedDoc = addFragmentsToDocument(origDoc, fMap);
+        assert.equal(transformedDoc.definitions.length, 3);
+      });
+    });
   });
 
   describe('resolveFragments', () => {
